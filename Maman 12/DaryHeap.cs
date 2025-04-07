@@ -11,7 +11,7 @@ namespace Maman_12
     {
         private List<int> _input;
         private int _d; //number of sons
-        int cas;
+        
 
 
 
