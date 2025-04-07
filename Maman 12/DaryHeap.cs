@@ -11,6 +11,7 @@ namespace Maman_12
     {
         private List<int> _input;
         private int _d; //number of sons
+       
         
 
 
@@ -19,6 +20,7 @@ namespace Maman_12
         {
             _d = d;
             _input = intArray;
+            
         }
 
         public void BuildHeap()
@@ -29,7 +31,7 @@ namespace Maman_12
         
         public void Change_d(int d)
         {
-
+            
         }
 
         public void ExtractMax()
@@ -48,7 +50,7 @@ namespace Maman_12
         }
         private void Max_Heapify(int i)
         {
-
+            
         }
 
         //returns the parent of a certain son indexed i
@@ -60,7 +62,7 @@ namespace Maman_12
         }
         
         //returns the k-th son of a certain node indexed i
-        private int D_son(int i, int k)
+        private int K_son(int i, int k)
         {
             return _d * i - _d + k + 1;
         }
