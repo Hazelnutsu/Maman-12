@@ -10,22 +10,23 @@ namespace Maman_12
     internal class DaryHeap
     {
         private List<int> _input;
-        private int _d; //number of sons
-       
+        private int _d; 
+        
         
 
 
 
-        public DaryHeap(int d, List<int> intArray)
+        public DaryHeap(List<int> intArray, int d)
         {
-            _d = d;
-            _input = intArray;
+            
             
         }
 
-        public void BuildHeap()
+        public void BuildHeap(List<int> input, int d)
         {
-
+            
+            
+           
         }
 
         
@@ -36,7 +37,7 @@ namespace Maman_12
 
         public void ExtractMax()
         {
-
+            
         }
         
         public void InsertX(int x)
@@ -56,15 +57,13 @@ namespace Maman_12
         //returns the parent of a certain son indexed i
         private int Parent(int i)
         {
-            double a = i / _d;
-           
-            return (int)Math.Floor(a);
+            
         }
         
         //returns the k-th son of a certain node indexed i
         private int K_son(int i, int k)
         {
-            return _d * i - _d + k + 1;
+            
         }
 
 

@@ -20,7 +20,7 @@ namespace Maman_12
 
             bool flag = true;
 
-            DaryHeap place_holderHeap;
+            
 
             Console.WriteLine(s1);
 
@@ -35,23 +35,6 @@ namespace Maman_12
                 {
                     case '1':
                         //build heap function call
-                        Console.Clear();
-                        Console.WriteLine("\n Enter values for the heap: ");
-                        string inputString = Console.ReadLine();
-                        Console.WriteLine("Enter the d value: ");
-                        int inputD = int.Parse(Console.ReadLine());
-                        string[] inputStringArray = inputString.Split(' ');
-
-                        List<int> intArray = new List<int>();
-                        foreach(string num in inputStringArray)
-                        {
-                            int convertedNum = int.Parse(num);
-                            intArray.Add(convertedNum);
-
-                        }
-                        place_holderHeap = new DaryHeap(inputD, intArray);
-
-
                         break;
 
                     case '2':
