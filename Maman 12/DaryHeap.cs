@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.SymbolStore;
 using System.Linq;
@@ -70,7 +71,31 @@ namespace Maman_12
 
         public void PrintHeap()
         {
-
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("\nThe Heap is: ");
+            Console.ResetColor();
+            int n = this.input.Count;
+            Console.WriteLine("You have " + n + " elements\n");
+            int kfola = 0;
+            int i = 0;
+            while (i < n)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write("Depth Number: " + kfola + ".\t");
+                Console.ResetColor();
+                int amount = (int) Math.Pow(this.d, kfola);
+                while(amount > 0)
+                {
+                    if(i < n)
+                    {
+                        Console.Write(this.input[i] + " ");
+                        i++;
+                    }
+                    amount--;
+                }
+                kfola++;
+                Console.WriteLine();
+            }
         }
 
         //Check in the future
@@ -120,6 +145,15 @@ namespace Maman_12
         public static bool isEmpty()
         {
             return DaryHeap.Empty;
+        }
+        public void PrintTree()
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("\nThe Heap is: ");
+            Console.ResetColor();
+            int n = this.input.Count;
+            Console.WriteLine("You have " + n + " amount of elements\n");
+
         }
     }
 }

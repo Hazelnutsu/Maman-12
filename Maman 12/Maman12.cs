@@ -9,6 +9,7 @@ using System.Threading;
 
 
 
+
 namespace Maman_12
 {
     internal class Maman12
@@ -65,6 +66,9 @@ namespace Maman_12
                         Console.WriteLine("The heap has been built");
                         Console.ResetColor();
 
+                        heap.PrintHeap();
+
+
                         break;
                     
                     case '2':
@@ -96,6 +100,7 @@ namespace Maman_12
                                 Console.ForegroundColor = ConsoleColor.Green;
                                 Console.WriteLine("The d value was changed to: " + newD);
                                 Console.ResetColor();
+                                heap.PrintHeap();
 
                                 break;
 
@@ -105,6 +110,7 @@ namespace Maman_12
                                 Console.ForegroundColor = ConsoleColor.Green;
                                 Console.WriteLine("The max value is: " + max);
                                 Console.ResetColor();
+                                heap.PrintHeap();
                                 break;
 
                             case '4':
@@ -119,12 +125,31 @@ namespace Maman_12
                                 Console.ForegroundColor = ConsoleColor.Green;
                                 Console.WriteLine("The value " + x + " was inserted to the heap");
                                 Console.ResetColor();
+                                heap.PrintHeap();
                                 break;
 
                             case '5':
                                 //print heap function call
-                                Console.WriteLine("The heap is: ");
-                                Maman12.heap.PrintHeap();
+                                string s2 = "Choose from the following options:" +
+                                    "\n 1. Print heap as a triangle" +
+                                    "\n 2. Print heap as a tree";
+                                Console.WriteLine(s2);
+                                char inputKey2 = Console.ReadKey().KeyChar;
+                                Console.WriteLine("\n");
+                                switch (inputKey2)
+                                {
+                                    case '1':
+                                        
+                                        heap.PrintHeap();
+                                        break;
+                                    case '2':
+
+                                        heap.PrintTree();
+                                        break;
+                                    default:
+                                        Console.WriteLine("Please enter a valid number");
+                                        break;
+                                }
                                 break;
                             }
                         break;
