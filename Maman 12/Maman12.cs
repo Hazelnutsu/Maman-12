@@ -27,14 +27,12 @@ namespace Maman_12
 
             bool flag = true;
 
-            
-
             Console.WriteLine(s1);
 
             while (flag)
             {
-               
 
+                
                 char inputKey = Console.ReadKey().KeyChar;
                 Console.WriteLine("\n");
                 
@@ -44,7 +42,7 @@ namespace Maman_12
                     case '1':
                         //build heap function call
                         Console.ForegroundColor = ConsoleColor.Blue;
-                        Console.WriteLine("Please write your heap array values(Spaces seperate the numbers): ");
+                        Console.WriteLine("Please write your heap array values(Seperated by a single space): ");
                         Console.ResetColor();
                         Console.WriteLine();
                         string array = Console.ReadLine();
@@ -123,7 +121,7 @@ namespace Maman_12
 
                                 //Change Console Color
                                 Console.ForegroundColor = ConsoleColor.Green;
-                                Console.WriteLine("The value " + x + " was inserted to the heap");
+                                Console.WriteLine("The value {0} was inserted to the heap", x);
                                 Console.ResetColor();
                                 heap.PrintHeap();
                                 break;
@@ -167,7 +165,7 @@ namespace Maman_12
                 }
                 Console.WriteLine("\n" + s1);
             }
-
+            
 
         }
         public static bool isValid(string[] string_Input, List<int> input)
@@ -182,7 +180,7 @@ namespace Maman_12
             if (string_Input.Length > 1000)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("You exceeded the amount of elements an heap can store(1000). Please try again.");
+                Console.WriteLine("You exceeded the amount of elements an heap can store (1000). Please try again.");
                 Console.ResetColor();
                 return false;
             }
@@ -201,7 +199,7 @@ namespace Maman_12
                 if (number > 9999)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("You exceeded the maximum value of an element(9999). Please try again.");
+                    Console.WriteLine("You exceeded the maximum value of an element (9999). Please try again.");
                     Console.ResetColor();
                     input.Clear();
                     return false;
