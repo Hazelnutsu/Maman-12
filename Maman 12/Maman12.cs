@@ -54,12 +54,7 @@ namespace Maman_12
                         if (!isValid(string_Input, input)){
                             break;
                         }
-                        Console.ForegroundColor = ConsoleColor.Blue;
-                        Console.Write("\nPlease enter the d value: ");
-                        Console.ResetColor();
-                        int d = int.Parse(Console.ReadLine());
-                        Console.WriteLine();
-
+                        int d = create_D();
                         Maman12.heap = new Dheap(input, d);
                         
                         Console.ForegroundColor = ConsoleColor.Green;
@@ -91,10 +86,7 @@ namespace Maman_12
 
                             case '2':
                                 //change d function call
-                                Console.ForegroundColor = ConsoleColor.Blue;
-                                Console.Write("Please enter the new d value: ");
-                                Console.ResetColor();
-                                int newD = int.Parse(Console.ReadLine());
+                                int newD = create_D();
                                 Maman12.heap.Change_d(newD);
                                 //Change Console Color.
                                 Console.ForegroundColor = ConsoleColor.Green;
@@ -240,6 +232,28 @@ namespace Maman_12
                 }
                 i++;
             }
+        }
+        
+        public static int create_D()
+        {
+            int d = 0;
+            while (d <= 0)
+            {
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.Write("\nPlease enter the d value: ");
+                Console.ResetColor();
+                string d_string = Console.ReadLine();
+                if (!isNumeric(d_string) || int.Parse(d_string) <= 0)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write("The D value has to be a number greater than 0");
+                    Console.ResetColor();
+                    continue;
+                }
+                d = int.Parse(d_string);
+                Console.WriteLine();
+            }
+            return d;
         }
     }
     
