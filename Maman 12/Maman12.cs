@@ -46,9 +46,11 @@ namespace Maman_12
                         Console.ResetColor();
                         Console.WriteLine();
                         string array = Console.ReadLine();
-                        string[] string_Input = array.Split(' ');
+                        List<string> string_Input = new List<string>();
+                        remove_Spaces(string_Input, array);                        
                         List<int> input = new List<int>();
-
+                        
+                        //Change the parameter of the function isValid
                         if (!isValid(string_Input, input)){
                             break;
                         }
@@ -104,6 +106,13 @@ namespace Maman_12
 
                             case '3':
                                 //extract max function call
+                                if (heap.getLength() == 0) 
+                                {
+                                    Console.ForegroundColor = ConsoleColor.Red;
+                                    Console.WriteLine("The heap is empty. ");
+                                    Console.ResetColor();
+                                    break;
+                                }
                                 int max = heap.ExtractMax();
                                 Console.ForegroundColor = ConsoleColor.Green;
                                 Console.WriteLine("The max value is: " + max);
@@ -168,7 +177,7 @@ namespace Maman_12
             
 
         }
-        public static bool isValid(string[] string_Input, List<int> input)
+        public static bool isValid(List<string> string_Input, List<int> input)
         {
             if (!Dheap.isEmpty())
             {
@@ -177,7 +186,7 @@ namespace Maman_12
                 Console.ResetColor();
                 return false;
             }
-            if (string_Input.Length > 1000)
+            if (string_Input.Count > 1000)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("You exceeded the amount of elements an heap can store (1000). Please try again.");
@@ -214,6 +223,24 @@ namespace Maman_12
             return double.TryParse(value, out _);
         }
          
+        public static void remove_Spaces(List<string> string_Input, string array)
+        {
+            int i = 0;
+            while (i < array.Length)
+            {
+                string str = "";
+                while (i < array.Length && array[i] != ' ')
+                {
+                    str += array[i];
+                    i++;
+                }
+                if (str != "")
+                {
+                    string_Input.Add(str);
+                }
+                i++;
+            }
+        }
     }
     
     

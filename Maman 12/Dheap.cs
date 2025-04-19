@@ -142,6 +142,7 @@ namespace Maman_12
             return this.input.Count;
         }
 
+        //This returns if a heap was already created. 
         public static bool isEmpty()
         {
             return Dheap.Empty;
