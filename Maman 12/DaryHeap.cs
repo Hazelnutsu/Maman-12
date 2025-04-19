@@ -75,15 +75,15 @@ namespace Maman_12
             Console.Write("\nThe Heap is: ");
             Console.ResetColor();
             int n = this.input.Count;
-            Console.WriteLine("You have " + n + " elements\n");
-            int kfola = 0;
+            Console.WriteLine("You have {0} elements\n", n);
+            int exponent = 0;
             int i = 0;
             while (i < n)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.Write("Depth Number: " + kfola + ".\t");
+                Console.Write("Depth Number {0}:\t", exponent);
                 Console.ResetColor();
-                int amount = (int) Math.Pow(this.d, kfola);
+                int amount = (int) Math.Pow(this.d, exponent);
                 while(amount > 0)
                 {
                     if(i < n)
@@ -93,7 +93,7 @@ namespace Maman_12
                     }
                     amount--;
                 }
-                kfola++;
+                exponent++;
                 Console.WriteLine();
             }
         }
@@ -152,7 +152,7 @@ namespace Maman_12
             Console.Write("\nThe Heap is: ");
             Console.ResetColor();
             int n = this.input.Count;
-            Console.WriteLine("You have " + n + " amount of elements\n");
+            Console.WriteLine("You have {0} amount of elements\n", n);
 
         }
     }
