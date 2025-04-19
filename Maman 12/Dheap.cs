@@ -10,18 +10,18 @@ using System.Xml.Schema;
 
 namespace Maman_12
 {
-    internal class DaryHeap
+    internal class Dheap
     {
         private List<int> input;
         private int d;
         private static bool Empty = true;
         
-        public DaryHeap(List<int> intArray, int d)
+        public Dheap(List<int> intArray, int d)
         {
             this.input = intArray;
             this.d = d;
             this.BuildHeap(this.input, this.d);
-            DaryHeap.Empty = false;
+            Dheap.Empty = false;
         }
 
         public void BuildHeap(List<int> input, int d)
@@ -144,7 +144,7 @@ namespace Maman_12
 
         public static bool isEmpty()
         {
-            return DaryHeap.Empty;
+            return Dheap.Empty;
         }
         public void PrintTree()
         {
