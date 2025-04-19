@@ -43,7 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DaryHeap.cs" />
+    <Compile Include="Dheap.cs" />
     <Compile Include="Maman12.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

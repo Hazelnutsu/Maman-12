@@ -14,7 +14,7 @@ namespace Maman_12
 {
     internal class Maman12
     {
-        static DaryHeap heap; //Our global variable.
+        static Dheap heap; //Our global variable.
         public static void Main(string[] args)
         {
             string s1 = "Please pick one of the following options:" +
@@ -58,7 +58,7 @@ namespace Maman_12
                         int d = int.Parse(Console.ReadLine());
                         Console.WriteLine();
 
-                        Maman12.heap = new DaryHeap(input, d);
+                        Maman12.heap = new Dheap(input, d);
                         
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine("The heap has been built");
@@ -74,7 +74,7 @@ namespace Maman_12
                     case '4':
                     case '5':
 
-                        if (DaryHeap.isEmpty())
+                        if (Dheap.isEmpty())
                         {
                             Console.ForegroundColor = ConsoleColor.Red;
                             Console.WriteLine("You have to create a heap first");
@@ -170,7 +170,7 @@ namespace Maman_12
         }
         public static bool isValid(string[] string_Input, List<int> input)
         {
-            if (!DaryHeap.isEmpty())
+            if (!Dheap.isEmpty())
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("You have already created an heap");
