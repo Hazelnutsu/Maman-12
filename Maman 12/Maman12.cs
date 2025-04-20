@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.SymbolStore;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
@@ -58,7 +59,7 @@ namespace Maman_12
                         int[] input = new int[length];
 
                         //Change the parameter of the function isValidHeap
-                        if (!isValidHeap(string_Input, input))
+                        if (string_input_length == 0 || !isValidHeap(string_Input, input) )
                         {
                             break;
                         }
@@ -122,6 +123,7 @@ namespace Maman_12
                                 {
                                     Console.WriteLine();
                                     PrintColored("Enter value: ", ConsoleColor.Blue);
+                                    value = Console.ReadLine();
 
                                 }
                                 x = int.Parse(value);
@@ -222,8 +224,17 @@ namespace Maman_12
         }
         public static bool isNumeric(string value)
         {
-            //Check this. Specificly "out _"
-            return double.TryParse(value, out _);
+            // Check for any non-digit characters
+            foreach (char c in value)
+            {
+                if (!char.IsDigit(c))
+                {
+                    return false;
+                }
+            }
+
+            // Try parsing as integer (to handle things like int overflow)
+            return int.TryParse(value, out _);
         }
         public static int count_Elements(string array)
         {
@@ -231,10 +242,16 @@ namespace Maman_12
             int j = 0;
             while (i < array.Length)
             {
+
                 if (i < array.Length && array[i] != ' ')
                 {
                     while (i < array.Length && array[i] != ' ')
                     {
+                        if (array[i] == '.')
+                        {
+                            PrintColored("[ERROR]: You have to enter round numbers only. Please try again.", ConsoleColor.Red);
+                            return 0;
+                        }
                         i++;
                     }
                     j++;
@@ -252,6 +269,11 @@ namespace Maman_12
                 string str = "";
                 while (i < array.Length && array[i] != ' ')
                 {
+                    //A stopping condition for a string with a double value. 
+                    if (array[i] == '.')
+                    {
+                        return 0;
+                    }
                     str += array[i];
                     i++;
                 }
@@ -273,9 +295,10 @@ namespace Maman_12
 
                 PrintColored("\nPlease enter the d value:", ConsoleColor.Blue);
                 string d_string = Console.ReadLine();
+
                 if (!isNumeric(d_string) || int.Parse(d_string) <= 0)
                 {
-                    PrintColored("[ERROR]: The D value has to be a number greater than 0", ConsoleColor.Red);
+                    PrintColored("[ERROR]: The D value has to be a round number greater than 0", ConsoleColor.Red);
                     continue;
                 }
                 d = int.Parse(d_string);
