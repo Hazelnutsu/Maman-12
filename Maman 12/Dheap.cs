@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.SymbolStore;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Schema;
@@ -19,7 +20,11 @@ namespace Maman_12
         private static bool Empty = true;
         private int heap_Length;
 
-        public Dheap(int[] intArray, int d)
+		/*
+         * The constructor that receives a array of integers and a d value 
+         * And creates a maximum d-ary heap.
+         */
+		public Dheap(int[] intArray, int d)
         {
             this.input = new int[1000];
             int i = 0;
@@ -39,7 +44,11 @@ namespace Maman_12
             Dheap.Empty = false;
         }
 
-        public void BuildHeap(int[] input, int d)
+		/*
+         * This method receives an array of integers and an integer d
+         * And builds a maximum d-ary heap from the input array.
+         */
+		public void BuildHeap(int[] input, int d)
         {
             int n = this.heap_Length;
             for (int i = (int)Math.Floor((n - 1) / (double)d); i >= 0; i--)
@@ -48,14 +57,22 @@ namespace Maman_12
             }
         }
 
-
-        public void Change_d(int newD)
+		/* 
+		 * This method receives an integer d
+		 * And rearranges the heap based on the new d value.
+		 */
+		public void Change_d(int newD)
         {
             this.d = newD;
             BuildHeap(input, this.d);
-        }
+		}
 
-        public int ExtractMax()
+		/// <summary>
+		/// Extracts the maximum element from the heap 
+		/// and rearranges the heap accordingly.
+		/// </summary>
+		/// <returns> The maximum element. </returns>
+		public int ExtractMax()
         {
             int n = this.heap_Length;
             int largest = this.input[0];
@@ -66,15 +83,29 @@ namespace Maman_12
             return largest;
         }
 
-        public void InsertX(int x)
+		/// <summary>
+		/// The function receives an integer x, inserts it to the heap
+		/// And calls fix_insert to rearrange the heap.
+        /// </summary>
+      
+		public void InsertX(int x)
         {
-            this.input[heap_Length] = x;
+            if(this.heap_Length >= 1000)
+			{
+                PrintColored("Heap is full, you cannot insert more elements.", ConsoleColor.Red);
+				return;
+			}
+			this.input[heap_Length] = x;
             this.heap_Length++;
             int n = this.heap_Length;
             fix_Insert(n - 1);
 
         }
-        public void fix_Insert(int i)
+
+		/// <summary>
+		/// The function receives an index i and places the element at that index in its correct location. 
+        /// </summary>
+		public void fix_Insert(int i)
         {
             if (i <= 0) { return; }
             int parent = Parent(i);
@@ -85,8 +116,10 @@ namespace Maman_12
             }
 
         }
-
-        public void PrintHeap()
+		/// <summary>
+		/// The function prints each level of the heap in a different line. 
+		/// </summary>
+		public void PrintHeap()
         {
             int n = this.heap_Length;
             PrintColored("You have " + n + " elements\n", ConsoleColor.Blue);
@@ -111,8 +144,10 @@ namespace Maman_12
             }
         }
 
-        //Check in the future
-        private void Max_Heapify(int i)
+		/// <summary>
+		/// The function receives an index i and places the element at that index in its correct location. 
+		/// </summary>
+		private void Max_Heapify(int i)
         {
             int largest = i;
             int n = this.heap_Length;
@@ -131,15 +166,20 @@ namespace Maman_12
                 this.Max_Heapify(largest);
             }
         }
-        private void swap(int k, int i)
+		/// <summary>
+        /// The function receives 2 indexes and swap between the values at those indexes.
+        /// </summary>
+		private void swap(int k, int i)
         {
             int temp = this.input[i];
             this.input[i] = this.input[k];
             this.input[k] = temp;
         }
 
-        //returns the parent of a certain son indexed i
-        private int Parent(int i)
+		/// <summary>
+		/// The functions receives an index i and returns its parent.
+		/// </summary>
+		private int Parent(int i)
         {
             return Convert.ToInt32(Math.Floor((i - 1) / (double)d));
         }
@@ -149,25 +189,26 @@ namespace Maman_12
         {
             return this.d * i + k;
         }
-
-        public int getLength()
+		/// <summary>
+		/// The functions returns the length of the heap. 
+		/// </summary>
+		public int getLength()
         {
             return this.heap_Length;
         }
 
-        //This returns if a heap was already created. 
-        public static bool isEmpty()
+		/// <summary>
+		/// The function returns true if the heap was not created and false otherwise. 
+		/// </summary>
+		public static bool isEmpty()
         {
             return Dheap.Empty;
         }
-        public void PrintTree()
-        {
-            PrintColored("\nThe Heap is: ", ConsoleColor.Green);
-            int n = this.heap_Length;
-            Console.WriteLine("You have {0} amount of elements\n", n);
 
-        }
-        public void PrintColored(string message, ConsoleColor color)
+		/// <summary>
+		/// The function receives a string and a color, then prints the string in the given color. 
+		/// </summary>
+		public void PrintColored(string message, ConsoleColor color)
         {
             Console.ForegroundColor = color;
             Console.WriteLine(message);

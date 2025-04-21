@@ -12,22 +12,56 @@ namespace Maman_12
 {
     internal class Maman12
     {
+        /// <summary>
+        /// Represents the possible user operations on the heap.
+        /// </summary>
         enum Status
         {
+            /// <summary>
+            /// Build the heap from input.
+            /// </summary>
             Build_Heap = '1',
+
+            /// <summary>
+            /// Change the value of d in the d-ary heap.
+            /// </summary>
             Change_d = '2',
+
+            /// <summary>
+            /// Extract the maximum element from the heap.
+            /// </summary>
             Extract_Max = '3',
+
+            /// <summary>
+            /// Insert a new element into the heap.
+            /// </summary>
             Insert = '4',
+
+            /// <summary>
+            /// Print the current heap.
+            /// </summary>
             Print_Heap = '5',
+
+            /// <summary>
+            /// Exit the program.
+            /// </summary>
             Exit = '6'
         }
+
         static Dheap heap; //Our global variable.
+
+        /// <summary>
+        /// Main function that starts the program.
+        /// </summary>
         public static void Main(string[] args)
         {
-
             HandleStatus();
         }
-
+        /// <summary>
+        /// The function handles the status of the program and the user input.
+        /// The function also handles the creation of the heap and the d value.
+        /// The function also handles the printing, inserting a value and extracting the maximum value. 
+        /// </summary>
         public static void HandleStatus()
         {
             bool flag = true;
@@ -52,10 +86,10 @@ namespace Maman_12
                         //build heap function call
                         PrintColored("Please write your heap array values(Seperated by a single space): ", ConsoleColor.Blue);
                         Console.WriteLine();
-                        string array = Console.ReadLine();
-                        int string_input_length = count_Elements(array);
+                        string User_Input = Console.ReadLine();
+                        int string_input_length = count_Elements(User_Input);
                         string[] string_Input = new string[string_input_length];
-                        int length = remove_Spaces(string_Input, array);
+                        int length = remove_Spaces(string_Input, User_Input);
                         int[] input = new int[length];
 
                         //Change the parameter of the function isValidHeap
@@ -136,27 +170,7 @@ namespace Maman_12
 
                             case Status.Print_Heap:
                                 //print heap function call
-                                string s2 = "Choose from the following options:" +
-                                    "\n 1. Print heap as a triangle" +
-                                    "\n 2. Print heap as a tree";
-                                Console.WriteLine(s2);
-                                char inputKey2 = Console.ReadKey().KeyChar;
-                                Status status2 = (Status)inputKey2;
-                                Console.WriteLine("\n");
-                                switch (status2)
-                                {
-                                    case Status.Build_Heap:
-
-                                        heap.PrintHeap();
-                                        break;
-                                    case Status.Change_d:
-
-                                        heap.PrintTree();
-                                        break;
-                                    default:
-                                        PrintColored("[ERROR]: Please enter a valid number", ConsoleColor.Red);
-                                        break;
-                                }
+                                heap.PrintHeap();
                                 break;
                         }
                         break;
@@ -175,6 +189,13 @@ namespace Maman_12
                 Console.WriteLine("\n" + s1);
             }
         }
+        /// <summary>
+        /// The function receives an array of strings and an array of integers. 
+        /// The function checks for every given value if its valid, checks that the amount of elements is less than than 1000.
+        /// The function also checks if a heap was already created before to validate creation.
+        /// Furthermore, the array is being created and the values are being parsed to integers.
+        /// </summary>
+        /// <returns> true if the user input is valid, false otherwise. </returns>
         public static bool isValidHeap(string[] string_Input, int[] input)
         {
             if (!Dheap.isEmpty())
@@ -190,23 +211,22 @@ namespace Maman_12
             int i = 0;
             foreach (string item in string_Input)
             {
-                if (!isNumeric(item))
+                //Checks for a given value if it is valid using the "is_Valid_Input_Number" function.
+                if (!is_Valid_Input_Number(item))
                 {
-                    PrintColored("[ERROR]: You have to enter numbers only. Please try again.", ConsoleColor.Red);
                     return false;
                 }
                 int number = int.Parse(item);
-
-                if (number > 9999 || number < -9999)
-                {
-                    PrintColored("[ERROR]: You exceeded the maximum value of an element (9999). Please try again.", ConsoleColor.Red);
-                    return false;
-                }
                 input[i] = number;
                 i++;
             }
             return true;
         }
+        /// <summary>
+        /// The function receives a string. 
+        /// The function checks if the input string is valid.
+        /// </summary>
+        /// <returns> true if a string is a whole number and a valid number, false otherwise. </returns>
         public static bool is_Valid_Input_Number(string num)
         {
             if (!isNumeric(num))
@@ -222,6 +242,14 @@ namespace Maman_12
             }
             return true;
         }
+
+
+
+        /// <summary>
+        /// The function receives a string.
+        /// The functions checks whether it's a whole number.
+        /// </summary>
+        /// <returns> true if a string is a whole number, false otherwise. </returns>
         public static bool isNumeric(string value)
         {
             // Check for any non-digit characters
@@ -236,18 +264,26 @@ namespace Maman_12
             // Try parsing as integer (to handle things like int overflow)
             return int.TryParse(value, out _);
         }
-        public static int count_Elements(string array)
+
+
+        /// <summary>
+        /// The function receives a string.
+        /// The function counts the amount of elements in the string (which are seperated by spaces).
+        /// The function handles invalid input and checks if the input is a number.
+        /// </summary>
+        /// <returns> The amount of numbers the user_input contains</returns>
+        public static int count_Elements(string User_Input)
         {
             int i = 0;
             int j = 0;
-            while (i < array.Length)
+            while (i < User_Input.Length)
             {
 
-                if (i < array.Length && array[i] != ' ')
+                if (i < User_Input.Length && User_Input[i] != ' ')
                 {
-                    while (i < array.Length && array[i] != ' ')
+                    while (i < User_Input.Length && User_Input[i] != ' ')
                     {
-                        if (array[i] == '.')
+                        if (User_Input[i] == '.')
                         {
                             PrintColored("[ERROR]: You have to enter round numbers only. Please try again.", ConsoleColor.Red);
                             return 0;
@@ -260,21 +296,29 @@ namespace Maman_12
             }
             return j;
         }
-        public static int remove_Spaces(string[] string_Input, string array)
+
+
+        /// <summary>
+        /// The function receives a string array and a string.
+        /// The function removes the spaces from the string and returns the amount of elements in the string.
+        /// The function handles invalid input and checks if the input is a number.
+        /// </summary>
+        /// <returns> The length of the heap array. </returns>
+        public static int remove_Spaces(string[] string_Input, string User_Input)
         {
             int i = 0;
             int j = 0;
-            while (i < array.Length)
+            while (i < User_Input.Length)
             {
                 string str = "";
-                while (i < array.Length && array[i] != ' ')
+                while (i < User_Input.Length && User_Input[i] != ' ')
                 {
                     //A stopping condition for a string with a double value. 
-                    if (array[i] == '.')
+                    if (User_Input[i] == '.')
                     {
                         return 0;
                     }
-                    str += array[i];
+                    str += User_Input[i];
                     i++;
                 }
                 if (str != "")
@@ -286,6 +330,12 @@ namespace Maman_12
             }
             return j;
         }
+
+        /// <summary>
+        /// The function creates the d value.
+        /// The function handles invalid input and checks if the input is a number.
+        /// </summary>
+        /// <returns> The new d value </returns>
 
         public static int create_D()
         {
@@ -306,6 +356,11 @@ namespace Maman_12
             }
             return d;
         }
+
+
+        /// <summary>
+        /// The function receives a string and a color, then prints the string in the given color. 
+        /// </summary>
         public static void PrintColored(string message, ConsoleColor color)
         {
             Console.ForegroundColor = color;
