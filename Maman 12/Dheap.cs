@@ -17,8 +17,8 @@ namespace Maman_12
     {
         private int[] input;
         private int d;
-        private static bool Empty = true;
-        private int heap_Length;
+        private static bool empty = true;
+        private int heapLength;
 
 		/*
          * The constructor that receives a array of integers and a d value 
@@ -33,7 +33,7 @@ namespace Maman_12
                 this.input[i] = intArray[i];
                 i++;
             }
-            this.heap_Length = i;
+            this.heapLength = i;
             while (i < 1000)
             {
                 this.input[i] = 10001;
@@ -41,7 +41,7 @@ namespace Maman_12
             }
             this.d = d;
             this.BuildHeap(this.input, this.d);
-            Dheap.Empty = false;
+            Dheap.empty = false;
         }
 
 		/*
@@ -50,10 +50,10 @@ namespace Maman_12
          */
 		public void BuildHeap(int[] input, int d)
         {
-            int n = this.heap_Length;
+            int n = this.heapLength;
             for (int i = (int)Math.Floor((n - 1) / (double)d); i >= 0; i--)
             {
-                this.Max_Heapify(i);
+                this.MaxHeapify(i);
             }
         }
 
@@ -61,7 +61,7 @@ namespace Maman_12
 		 * This method receives an integer d
 		 * And rearranges the heap based on the new d value.
 		 */
-		public void Change_d(int newD)
+		public void ChangeD(int newD)
         {
             this.d = newD;
             BuildHeap(input, this.d);
@@ -74,45 +74,45 @@ namespace Maman_12
 		/// <returns> The maximum element. </returns>
 		public int ExtractMax()
         {
-            int n = this.heap_Length;
+            int n = this.heapLength;
             int largest = this.input[0];
-            swap(0, n - 1);
+            Swap(0, n - 1);
             input[n - 1] = 10001;
-            this.heap_Length = n - 1;
-            Max_Heapify(0);
+            this.heapLength = n - 1;
+            MaxHeapify(0);
             return largest;
         }
 
 		/// <summary>
 		/// The function receives an integer x, inserts it to the heap
-		/// And calls fix_insert to rearrange the heap.
+		/// And calls FixInsert to rearrange the heap.
         /// </summary>
       
 		public void InsertX(int x)
         {
-            if(this.heap_Length >= 1000)
+            if(this.heapLength >= 1000)
 			{
                 PrintColored("Heap is full, you cannot insert more elements.", ConsoleColor.Red);
 				return;
 			}
-			this.input[heap_Length] = x;
-            this.heap_Length++;
-            int n = this.heap_Length;
-            fix_Insert(n - 1);
+			this.input[heapLength] = x;
+            this.heapLength++;
+            int n = this.heapLength;
+            FixInsert(n - 1);
 
         }
 
 		/// <summary>
 		/// The function receives an index i and places the element at that index in its correct location. 
         /// </summary>
-		public void fix_Insert(int i)
+		public void FixInsert(int i)
         {
             if (i <= 0) { return; }
             int parent = Parent(i);
             if (input[i] > input[parent])
             {
-                swap(i, parent);
-                fix_Insert(parent);
+                Swap(i, parent);
+                FixInsert(parent);
             }
 
         }
@@ -121,7 +121,7 @@ namespace Maman_12
 		/// </summary>
 		public void PrintHeap()
         {
-            int n = this.heap_Length;
+            int n = this.heapLength;
             PrintColored("You have " + n + " elements\n", ConsoleColor.Blue);
             PrintColored("\nThe Heap is: ", ConsoleColor.Green);
             int exponent = 0;
@@ -147,10 +147,10 @@ namespace Maman_12
 		/// <summary>
 		/// The function receives an index i and places the element at that index in its correct location. 
 		/// </summary>
-		private void Max_Heapify(int i)
+		private void MaxHeapify(int i)
         {
             int largest = i;
-            int n = this.heap_Length;
+            int n = this.heapLength;
             for (int k = i * this.d + 1; k < (i * this.d) + d + 1; k++)
             {
                 if (k >= n) { break; }
@@ -162,14 +162,14 @@ namespace Maman_12
 
             if (largest != i)
             {
-                swap(largest, i);
-                this.Max_Heapify(largest);
+                Swap(largest, i);
+                this.MaxHeapify(largest);
             }
         }
 		/// <summary>
-        /// The function receives 2 indexes and swap between the values at those indexes.
+        /// The function receives 2 indexes and Swap between the values at those indexes.
         /// </summary>
-		private void swap(int k, int i)
+		private void Swap(int k, int i)
         {
             int temp = this.input[i];
             this.input[i] = this.input[k];
@@ -184,25 +184,25 @@ namespace Maman_12
             return Convert.ToInt32(Math.Floor((i - 1) / (double)d));
         }
 
-        //returns the k-th son of a certain node indexed i
-        private int K_son(int i, int k)
+        //delete this bitch
+        private int KSon(int i, int k)
         {
             return this.d * i + k;
         }
 		/// <summary>
 		/// The functions returns the length of the heap. 
 		/// </summary>
-		public int getLength()
+		public int GetLength()
         {
-            return this.heap_Length;
+            return this.heapLength;
         }
 
 		/// <summary>
 		/// The function returns true if the heap was not created and false otherwise. 
 		/// </summary>
-		public static bool isEmpty()
+		public static bool IsEmpty()
         {
-            return Dheap.Empty;
+            return Dheap.empty;
         }
 
 		/// <summary>

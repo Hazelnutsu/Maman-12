@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 
 namespace Maman_12
@@ -20,36 +21,37 @@ namespace Maman_12
             /// <summary>
             /// Build the heap from input.
             /// </summary>
-            Build_Heap = '1',
+            buildHeap = '1',
 
             /// <summary>
             /// Change the value of d in the d-ary heap.
             /// </summary>
-            Change_d = '2',
+            ChangeD = '2',
 
             /// <summary>
             /// Extract the maximum element from the heap.
             /// </summary>
-            Extract_Max = '3',
+            extractMax = '3',
 
             /// <summary>
-            /// Insert a new element into the heap.
+            /// insert a new element into the heap.
             /// </summary>
-            Insert = '4',
+            insert = '4',
 
             /// <summary>
             /// Print the current heap.
             /// </summary>
-            Print_Heap = '5',
+            printHeap = '5',
 
             /// <summary>
-            /// Exit the program.
+            /// exit the program.
             /// </summary>
-            Exit = '6'
+            exit = '6'
         }
 
-        static Dheap heap; //Our global variable.
-
+        static Dheap heap; 
+        //pattern for any signed numeric input and white spaces
+        static readonly Regex inputPattern = new Regex(@"^\s*[+-]?\d+(?:\s+[+-]?\d+)*\s*$");
         /// <summary>
         /// Main function that starts the program.
         /// </summary>
@@ -57,11 +59,14 @@ namespace Maman_12
         {
             HandleStatus();
         }
+
+
+       
+
         /// <summary>
-        /// The function handles the status of the program and the user input.
-        /// The function also handles the creation of the heap and the d value.
-        /// The function also handles the printing, inserting a value and extracting the maximum value. 
-        /// </summary>
+        /// This function:
+        /// handles the user input. 
+        /// </summary>     
         public static void HandleStatus()
         {
             bool flag = true;
@@ -82,63 +87,90 @@ namespace Maman_12
 
                 switch (status)
                 {
-                    case Status.Build_Heap:
-                        //build heap function call
-                        PrintColored("Please write your heap values as integers (Seperated by a space): ", ConsoleColor.Blue);
-                        Console.WriteLine();
-                        string User_Input = Console.ReadLine();
-                        int string_input_length = count_Elements(User_Input);
-                        string[] string_Input = new string[string_input_length];
-                        int length = remove_Spaces(string_Input, User_Input);
-                        int[] input = new int[length];
-
-                        //Change the parameter of the function isValidHeap
-                        if (string_input_length == 0 || !isValidHeap(string_Input, input) )
+                    case Status.buildHeap:
+                        
+                        PrintColored("Please write your heap values as integers (Seperated by a space): \n", ConsoleColor.Blue);                        
+                        string userInput = Console.ReadLine();
+                        if (!inputPattern.IsMatch(userInput))
                         {
+                            PrintColored("[ERROR]: You have to enter integers only. Please try again.", ConsoleColor.Red);
                             break;
                         }
-                        int d = create_D();
-                        Maman12.heap = new Dheap(input, d);
+                        //pattern for replacing any white space with 1 single white space
+                        userInput = Regex.Replace(userInput, @"\s+", " ").Trim();
+                        string[] userInputArray = userInput.Split(' ');
+                        List<int> input = new List<int>();
+                        foreach (string num in userInputArray)
+                        {
+                            input.Add(int.Parse(num));
+                        }
 
-                        PrintColored("The heap has been built", ConsoleColor.Green);
+                        if (input.Count == 0 || input.Count > 1000)
+                        {
+                            PrintColored("[ERROR] input has to be more than 0 and less than 1000 elements", ConsoleColor.Red);
+                            break;
+                        }
 
-                        heap.PrintHeap();
+                        int d;
+                        bool dValid = false;
+                        while (!dValid)
+                        {
+                            PrintColored("Please enter the d value: ", ConsoleColor.Blue);
+                            string dInput = Console.ReadLine();
+                            if (int.TryParse(dInput, out d))
+                            {
+                                if (d <= 0)
+                                {
+                                    PrintColored("[ERROR] d value has to be a positive integer", ConsoleColor.Red);
+                                    continue;
+                                }
+                                dValid = true;
+                                break;
+                            }
+                            else
+                            {
+                                PrintColored("[ERROR] d value has to be a positive integer", ConsoleColor.Red);                                
+                            }
+                        }
+                        
+                        
+                        
+                        
+                            //int d = int.TryParse()
+                            //Maman12.heap = new Dheap(input, d);
+
+                            PrintColored("The heap has been built", ConsoleColor.Green);
+
+                       // heap.PrintHeap();
 
 
                         break;
 
-                    case Status.Change_d:
-                    case Status.Extract_Max:
-                    case Status.Insert:
-                    case Status.Print_Heap:
+                    case Status.ChangeD:
+                    case Status.extractMax:
+                    case Status.insert:
+                    case Status.printHeap:
 
-                        if (Dheap.isEmpty())
+                        if (Dheap.IsEmpty())
                         {
                             PrintColored("[ERROR]: You have to create an heap first", ConsoleColor.Red);
-
-
                             Thread.Sleep(2000);
-
                             break;
                         }
 
                         switch (status)
                         {
 
-                            case Status.Change_d:
-                                //change d function call
-                                int newD = create_D();
-                                Maman12.heap.Change_d(newD);
-                                //Change Console Color.
-                                PrintColored("The d value was changed to: " + newD, ConsoleColor.Green);
-
+                            case Status.ChangeD:                                
+                                int newD = CreateD();
+                                Maman12.heap.ChangeD(newD);                                
+                                PrintColored("The d value was ChangeD to: " + newD, ConsoleColor.Green);
                                 heap.PrintHeap();
 
                                 break;
 
-                            case Status.Extract_Max:
-                                //extract max function call
-                                if (heap.getLength() == 0)
+                            case Status.extractMax:                                
+                                if (heap.GetLength() == 0)
                                 {
                                     PrintColored("[ERROR]: The heap is empty. ", ConsoleColor.Red);
                                     break;
@@ -148,12 +180,11 @@ namespace Maman_12
                                 heap.PrintHeap();
                                 break;
 
-                            case Status.Insert:
-                                //insert node function call
+                            case Status.insert:                                
                                 PrintColored("Enter value: ", ConsoleColor.Blue);
                                 int x = 0;
                                 string value = Console.ReadLine();
-                                while (!is_Valid_Input_Number(value))
+                                while (!IsValidInputNumber(value))
                                 {
                                     Console.WriteLine();
                                     PrintColored("Enter value: ", ConsoleColor.Blue);
@@ -162,20 +193,18 @@ namespace Maman_12
                                 }
                                 x = int.Parse(value);
                                 heap.InsertX(x);
-
-                                //Change Console Color
+                                
                                 PrintColored("The value " + x + " was inserted to the heap successfully.", ConsoleColor.Green);
                                 heap.PrintHeap();
                                 break;
 
-                            case Status.Print_Heap:
-                                //print heap function call
+                            case Status.printHeap:                                
                                 heap.PrintHeap();
                                 break;
                         }
                         break;
 
-                    case Status.Exit:
+                    case Status.exit:
                         //exit program
                         flag = false;
                         break;
@@ -189,47 +218,51 @@ namespace Maman_12
                 Console.WriteLine("\n" + s1);
             }
         }
+
         /// <summary>
         /// The function receives an array of strings and an array of integers. 
-        /// The function checks for every given value if its valid, checks that the amount of elements is less than than 1000.
+        /// The function checks for every given value if its valid and that the amount of elements is  <= 1000.
         /// The function also checks if a heap was already created before to validate creation.
         /// Furthermore, the array is being created and the values are being parsed to integers.
         /// </summary>
+        /// <param name="stringInput"></param>        
         /// <returns> true if the user input is valid, false otherwise. </returns>
-        public static bool isValidHeap(string[] string_Input, int[] input)
-        {
-            if (!Dheap.isEmpty())
-            {
-                PrintColored("[ERROR]: You have already created an heap", ConsoleColor.Red);
-                return false;
-            }
-            if (string_Input.Length > 1000)
-            {
-                PrintColored("[ERROR]: You exceeded the amount of elements an heap can store (1000). Please try again.", ConsoleColor.Red);
-                return false;
-            }
-            int i = 0;
-            foreach (string item in string_Input)
-            {
-                //Checks for a given value if it is valid using the "is_Valid_Input_Number" function.
-                if (!is_Valid_Input_Number(item))
-                {
-                    return false;
-                }
-                int number = int.Parse(item);
-                input[i] = number;
-                i++;
-            }
-            return true;
-        }
+        //public static bool IsValidHeap(string[] stringInput, int[] input)
+        //{
+        //    if (!Dheap.IsEmpty())
+        //    {
+        //        PrintColored("[ERROR]: You have already created an heap", ConsoleColor.Red);
+        //        return false;
+        //    }
+        //    if (stringInput.Length > 1000)
+        //    {
+        //        PrintColored("[ERROR]: You exceeded the amount of elements an heap can store (1000). Please try again.", ConsoleColor.Red);
+        //        return false;
+        //    }
+        //    //int i = 0;
+        //    //foreach (string item in stringInput)
+        //    //{
+        //    //    //Checks for a given value if it is valid using the "IsValidInputNumber" function.
+        //    //    if (!IsValidInputNumber(item))
+        //    //    {
+        //    //        return false;
+        //    //    }
+        //    //    int number = int.Parse(item);
+        //    //    input[i] = number;
+        //    //    i++;
+        //    //}
+        //    //return true;
+        //}
+
+
         /// <summary>
-        /// The function receives a string. 
-        /// The function checks if the input string is valid.
+        /// The function checks if the input string is a valid integers.
         /// </summary>
-        /// <returns> true if a string is a whole number and a valid number, false otherwise. </returns>
-        public static bool is_Valid_Input_Number(string num)
+        /// <param name="num">String representing a number.</param>
+        /// <returns> true if the string represents a valid integer, false otherwise. </returns>
+        public static bool IsValidInputNumber(string num)
         {
-            if (!isNumeric(num))
+            if (!IsNumeric(num))
             {
                 PrintColored("[ERROR]: You have to enter integers only. Please try again.", ConsoleColor.Red);
                 return false;
@@ -247,10 +280,10 @@ namespace Maman_12
 
         /// <summary>
         /// The function receives a string.
-        /// The functions checks whether it's a whole number.
+        /// The functions checks whether it's an integer.
         /// </summary>
-        /// <returns> true if a string is a whole number, false otherwise. </returns>
-        public static bool isNumeric(string value)
+        /// <returns> true if the string represents an integer, false otherwise. </returns>
+        public static bool IsNumeric(string value)
         {
             // Check for any non-digit characters
             foreach (char c in value)
@@ -269,21 +302,22 @@ namespace Maman_12
         /// <summary>
         /// The function receives a string.
         /// The function counts the amount of elements in the string (which are seperated by spaces).
-        /// The function handles invalid input and checks if the input is a number.
+        /// The function handles invalid input by checking if it's an integer.
         /// </summary>
-        /// <returns> The amount of numbers the user_input contains</returns>
-        public static int count_Elements(string User_Input)
+        /// <returns> The amount of integers the userInput contains</returns>
+        public static int CountElement(string userInput)
         {
+
             int i = 0;
             int j = 0;
-            while (i < User_Input.Length)
+            while (i < userInput.Length)
             {
 
-                if (i < User_Input.Length && User_Input[i] != ' ')
+                if (i < userInput.Length && userInput[i] != ' ')
                 {
-                    while (i < User_Input.Length && User_Input[i] != ' ')
+                    while (i < userInput.Length && userInput[i] != ' ')
                     {
-                        if (User_Input[i] == '.')
+                        if (userInput[i] == '.')
                         {
                             PrintColored("[ERROR]: You have to enter integers only. Please try again.", ConsoleColor.Red);
                             return 0;
@@ -300,30 +334,30 @@ namespace Maman_12
 
         /// <summary>
         /// The function receives a string array and a string.
-        /// The function removes the spaces from the string and returns the amount of elements in the string.
+        /// The function removes the spaces from the string and returns the amount integers in the string.
         /// The function handles invalid input and checks if the input is a number.
         /// </summary>
-        /// <returns> The length of the heap array. </returns>
-        public static int remove_Spaces(string[] string_Input, string User_Input)
+        /// <returns> The length of the array representing the heap. </returns>
+        public static int RemoveSpaces(string[] stringInput, string userInput)
         {
             int i = 0;
             int j = 0;
-            while (i < User_Input.Length)
+            while (i < userInput.Length)
             {
                 string str = "";
-                while (i < User_Input.Length && User_Input[i] != ' ')
+                while (i < userInput.Length && userInput[i] != ' ')
                 {
                     //A stopping condition for a string with a double value. 
-                    if (User_Input[i] == '.')
+                    if (userInput[i] == '.')
                     {
                         return 0;
                     }
-                    str += User_Input[i];
+                    str += userInput[i];
                     i++;
                 }
                 if (str != "")
                 {
-                    string_Input[j] = str;
+                    stringInput[j] = str;
                     j++;
                 }
                 i++;
@@ -337,7 +371,7 @@ namespace Maman_12
         /// </summary>
         /// <returns> The new d value </returns>
 
-        public static int create_D()
+        public static int CreateD()
         {
             int d = 0;
             while (d <= 0)
@@ -346,7 +380,7 @@ namespace Maman_12
                 PrintColored("\nPlease enter the d value:", ConsoleColor.Blue);
                 string d_string = Console.ReadLine();
 
-                if (!isNumeric(d_string) || int.Parse(d_string) <= 0)
+                if (!IsNumeric(d_string) || int.Parse(d_string) <= 0)
                 {
                     PrintColored("[ERROR]: The D value has to be an integers greater than 0", ConsoleColor.Red);
                     continue;
