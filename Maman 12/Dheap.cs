@@ -93,7 +93,7 @@ namespace Maman_12
         ///// </summary>
         public void PrintHeap()
         {
-            int n = this.input.Count;
+            int n = input.Count;
             PrintColored("You have " + n + " elements\n", ConsoleColor.Blue);
             PrintColored("\nThe Heap is: ", ConsoleColor.Green);
             int exponent = 0;
@@ -101,12 +101,12 @@ namespace Maman_12
             while (i < n)
             {
                 PrintColored("Depth Number " + exponent + ":\t", ConsoleColor.Green);
-                int amount = (int)Math.Pow(this.d, exponent);
+                int amount = (int)Math.Pow(d, exponent);
                 while (amount > 0)
                 {
                     if (i < n)
                     {
-                        Console.Write(this.input[i] + " ");
+                        Console.Write(input[i] + " ");
                         i++;
                     }
                     amount--;
@@ -123,7 +123,7 @@ namespace Maman_12
         {
             int largest = i;
             int n = input.Count;
-            for (int k = i * this.d + 1; k < (i * this.d) + d + 1; k++)
+            for (int k = i * d + 1; k < (i * d) + d + 1; k++)
             {
                 if (k >= n) { break; }
                 if (input[k] > input[largest])
@@ -153,7 +153,7 @@ namespace Maman_12
         /// </summary>
         public int GetLength()
         {
-            return this.input.Count;
+            return input.Count;
         }
 
         /// <summary>
