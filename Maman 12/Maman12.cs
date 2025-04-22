@@ -81,7 +81,7 @@ namespace Maman_12
             Console.WriteLine(msg);
             while (flag)
             {
-                char inputKey = Console.ReadKey().KeyChar;
+                char inputKey = Console.ReadLine().Trim()[0];
                 Console.WriteLine("\n");
                 Status status = (Status)inputKey;
 
@@ -124,13 +124,13 @@ namespace Maman_12
                             PrintColored("[ERROR] Values have to be between -9999 and 9999", ConsoleColor.Red);
                             break;
                         }
-                        
+                        //check for making an empty heap
                         if (input.Count == 0 || input.Count > 1000)
                         {
                             PrintColored("[ERROR] input has to be more than 0 and less than 1000 elements", ConsoleColor.Red);
                             break;
                         }
-
+                        //maybe can remove the function ValidInput and do regex.replace with a minus and use the regex to validate input
                         int d = ValidInput(true);                                                                                                                                                   
                         heap = new Dheap(input, d);
                         PrintColored("The heap has been built", ConsoleColor.Green);
