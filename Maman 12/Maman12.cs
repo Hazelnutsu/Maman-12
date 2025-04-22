@@ -84,7 +84,7 @@ namespace Maman_12
                 {
                     case Status.Build_Heap:
                         //build heap function call
-                        PrintColored("Please write your heap array values(Seperated by a single space): ", ConsoleColor.Blue);
+                        PrintColored("Please write your heap values as integers (Seperated by a space): ", ConsoleColor.Blue);
                         Console.WriteLine();
                         string User_Input = Console.ReadLine();
                         int string_input_length = count_Elements(User_Input);
@@ -181,7 +181,7 @@ namespace Maman_12
                         break;
 
                     default:
-                        PrintColored("[ERROR]: Please enter a valid number", ConsoleColor.Red);
+                        PrintColored("[ERROR]: Please enter a valid integer", ConsoleColor.Red);
                         break;
 
 
@@ -231,7 +231,7 @@ namespace Maman_12
         {
             if (!isNumeric(num))
             {
-                PrintColored("[ERROR]: You have to enter numbers only. Please try again.", ConsoleColor.Red);
+                PrintColored("[ERROR]: You have to enter integers only. Please try again.", ConsoleColor.Red);
                 return false;
             }
             int number = int.Parse(num);
@@ -285,7 +285,7 @@ namespace Maman_12
                     {
                         if (User_Input[i] == '.')
                         {
-                            PrintColored("[ERROR]: You have to enter round numbers only. Please try again.", ConsoleColor.Red);
+                            PrintColored("[ERROR]: You have to enter integers only. Please try again.", ConsoleColor.Red);
                             return 0;
                         }
                         i++;
@@ -348,7 +348,7 @@ namespace Maman_12
 
                 if (!isNumeric(d_string) || int.Parse(d_string) <= 0)
                 {
-                    PrintColored("[ERROR]: The D value has to be a round number greater than 0", ConsoleColor.Red);
+                    PrintColored("[ERROR]: The D value has to be an integers greater than 0", ConsoleColor.Red);
                     continue;
                 }
                 d = int.Parse(d_string);
