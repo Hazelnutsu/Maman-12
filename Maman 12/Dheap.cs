@@ -125,7 +125,7 @@ namespace Maman_12
         public void PrintHeap()
         {
             int n = input.Count;
-            PrintColored("You have " + n + " elements\n", ConsoleColor.Blue);
+            PrintColored("You have " + n + " elements", ConsoleColor.Blue);
             PrintColored("\nThe Heap is: ", ConsoleColor.Green);
             int exponent = 0;
             int i = 0;

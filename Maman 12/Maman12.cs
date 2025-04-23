@@ -64,7 +64,7 @@ namespace Maman_12
             while (flag)
             {
                 char inputKey = Console.ReadLine().Trim()[0];
-                Console.WriteLine("\n");
+                Console.WriteLine();
                 Status status = (Status)inputKey;
 
                 switch (status)
@@ -118,7 +118,7 @@ namespace Maman_12
                         }
 
                         
-                        int d = ValidInput(true);                                                                                                                                                   
+                        int d = ValidInput(true, "Enter the d value: ");                                                                                                                                                   
                         heap = new Dheap(input, d);
                         PrintColored("The heap has been built", ConsoleColor.Green);
                         heap.PrintHeap();
@@ -140,7 +140,7 @@ namespace Maman_12
                         {
 
                             case Status.ChangeD:
-                                int newD = ValidInput(true);
+                                int newD = ValidInput(true, "Enter the d value");
                                 heap.ChangeD(newD);                                
                                 PrintColored("The d value was ChangeD to: " + newD, ConsoleColor.Green);
                                 heap.PrintHeap();
@@ -161,7 +161,7 @@ namespace Maman_12
 
                             case Status.insert:
                                 
-                                int x = ValidInput(false);
+                                int x = ValidInput(false, "Enter value: ");
                                 heap.InsertX(x);                                
                                 PrintColored("The value " + x + " was inserted to the heap successfully.", ConsoleColor.Green);
                                 heap.PrintHeap();
@@ -196,14 +196,14 @@ namespace Maman_12
         /// </summary>
         /// <param name="hasToBePositive">Checks whether the input needs to be positive or not.</param>
         /// <returns>The value from the user input as an integer.</returns>
-        public static int ValidInput(bool hasToBePositive)
+        public static int ValidInput(bool hasToBePositive, string msg)
         {
             int x = 0;
             bool flag = true;
             string value;
             while (flag)
             {
-                PrintColored("Enter value: ", ConsoleColor.Blue);
+                PrintColored(msg, ConsoleColor.Blue);
                 value = Console.ReadLine();
                 if (int.TryParse(value, out x))
                 {
