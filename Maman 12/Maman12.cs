@@ -17,40 +17,22 @@ namespace Maman_12
         /// Represents the possible user operations on the heap.
         /// </summary>
         enum Status
-        {
-            /// <summary>
-            /// Build the heap from input.
-            /// </summary>
+        {   
             buildHeap = '1',
 
-            /// <summary>
-            /// Change the value of d in the d-ary heap.
-            /// </summary>
             ChangeD = '2',
-
-            /// <summary>
-            /// Extract the maximum element from the heap.
-            /// </summary>
+           
             extractMax = '3',
-
-            /// <summary>
-            /// insert a new element into the heap.
-            /// </summary>
+           
             insert = '4',
 
-            /// <summary>
-            /// Print the current heap.
-            /// </summary>
             printHeap = '5',
 
-            /// <summary>
-            /// exit the program.
-            /// </summary>
             exit = '6'
         }
 
         static Dheap heap; 
-        //pattern for any signed numeric input and white spaces
+        //Pattern for any signed numeric input and white spaces
         static readonly Regex inputPattern = new Regex(@"^\s*[+-]?\d+(?:\s+[+-]?\d+)*\s*$");
         /// <summary>
         /// Main function that starts the program.
@@ -64,7 +46,7 @@ namespace Maman_12
        
 
         /// <summary>
-        /// This function:
+        /// This function HandleStatus:
         /// handles the user input. 
         /// </summary>     
         public static void HandleStatus()
@@ -101,7 +83,8 @@ namespace Maman_12
                             PrintColored("[ERROR]: You have to enter integers only. Please try again.", ConsoleColor.Red);
                             break;
                         }
-                        //pattern for replacing any white space with 1 single white space
+
+                        //Pattern for replacing any white space with 1 single white space.
                         userInput = Regex.Replace(userInput, @"\s+", " ").Trim();
                         string[] userInputArray = userInput.Split(' ');                        
                         List<int> input = new List<int>();
@@ -110,6 +93,7 @@ namespace Maman_12
                         {                           
                             input.Add(int.Parse(num));                            
                         }
+
                         bool validList = true;
                         foreach(int num in input)
                         {
@@ -119,18 +103,21 @@ namespace Maman_12
                                 break;
                             }
                         }
+
                         if (!validList)
                         {
                             PrintColored("[ERROR] Values have to be between -9999 and 9999", ConsoleColor.Red);
                             break;
                         }
-                        //check for making an empty heap
+
+                        
                         if (input.Count == 0 || input.Count > 1000)
                         {
                             PrintColored("[ERROR] input has to be more than 0 and less than 1000 elements", ConsoleColor.Red);
                             break;
                         }
-                        //maybe can remove the function ValidInput and do regex.replace with a minus and use the regex to validate input
+
+                        
                         int d = ValidInput(true);                                                                                                                                                   
                         heap = new Dheap(input, d);
                         PrintColored("The heap has been built", ConsoleColor.Green);
@@ -201,6 +188,14 @@ namespace Maman_12
             }
         }
 
+        /// <summary>
+        /// The function ValidInput:
+        /// Asks the user for input of a value either to insert into the heap or the d value of the heap.
+        /// Checks whether the input is valid based on the case that called it:
+        /// for a d value checks that its a positive integer and for an insert value checks whether its an integer with a max of 4 digits.
+        /// </summary>
+        /// <param name="hasToBePositive">Checks whether the input needs to be positive or not.</param>
+        /// <returns>The value from the user input as an integer.</returns>
         public static int ValidInput(bool hasToBePositive)
         {
             int x = 0;
@@ -212,10 +207,19 @@ namespace Maman_12
                 value = Console.ReadLine();
                 if (int.TryParse(value, out x))
                 {
+
                     if (!hasToBePositive)
-                        return x;
+                    {
+                        if (x > 9999 || x < -9999)
+                        {
+                            PrintColored("[ERROR] Values have to be between -9999 and 9999", ConsoleColor.Red);
+                            continue;
+                        }
+                        else
+                            break;
+                    }
                     else if (hasToBePositive && x > 0)
-                        return x;
+                        break;
                     else
                     {
                         PrintColored("[ERROR] Value has to be a positive integer", ConsoleColor.Red);
@@ -232,8 +236,11 @@ namespace Maman_12
         }
                 
         /// <summary>
-        /// The function receives a string and a color, then prints the string in the given color. 
+        /// The function:
+        /// Prints a string with an input color.
         /// </summary>
+        /// <param name="message">The string that you wish to print in a different color.</param>
+        /// <param name="color">The color you wish to change to.</param>
         public static void PrintColored(string message, ConsoleColor color)
         {
             Console.ForegroundColor = color;
