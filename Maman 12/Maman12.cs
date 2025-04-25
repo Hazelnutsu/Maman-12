@@ -32,8 +32,8 @@ namespace Maman_12
         }
 
         static Dheap heap; 
-        //Pattern for any signed numeric input and white spaces
-        static readonly Regex inputPattern = new Regex(@"^\s*[+-]?\d+(?:\s+[+-]?\d+)*\s*$");
+        //Pattern for any signed numeric with a maximum of 4 digits input and white spaces.
+        static readonly Regex inputPattern = new Regex(@"^\s*[+-]?\d{1,4}(?:\s+[+-]?\d{1,4})*\s*$");
         /// <summary>
         /// Main function that starts the program.
         /// </summary>
@@ -41,9 +41,6 @@ namespace Maman_12
         {
             HandleStatus();
         }
-
-
-       
 
         /// <summary>
         /// This function HandleStatus:
@@ -75,54 +72,7 @@ namespace Maman_12
                             PrintColored("A heap was already created", ConsoleColor.Red);
                             break;
                         }
-
-                        PrintColored("Please write your heap values as integers (Seperated by a space): ", ConsoleColor.Blue);                        
-                        string userInput = Console.ReadLine();
-                        if (!inputPattern.IsMatch(userInput))
-                        {
-                            PrintColored("[ERROR]: You have to enter integers only. Please try again.", ConsoleColor.Red);
-                            break;
-                        }
-
-                        //Pattern for replacing any white space with 1 single white space.
-                        userInput = Regex.Replace(userInput, @"\s+", " ").Trim();
-                        string[] userInputArray = userInput.Split(' ');                        
-                        List<int> input = new List<int>();
-
-                        foreach (string num in userInputArray)
-                        {                           
-                            input.Add(int.Parse(num));                            
-                        }
-
-                        bool validList = true;
-                        foreach(int num in input)
-                        {
-                            if(num > 9999 || num < -9999)
-                            {
-                                validList = false;
-                                break;
-                            }
-                        }
-
-                        if (!validList)
-                        {
-                            PrintColored("[ERROR] Values have to be between -9999 and 9999", ConsoleColor.Red);
-                            break;
-                        }
-
-                        
-                        if (input.Count == 0 || input.Count > 1000)
-                        {
-                            PrintColored("[ERROR] input has to be more than 0 and less than 1000 elements", ConsoleColor.Red);
-                            break;
-                        }
-
-                        
-                        int d = ValidInput(true, "Enter the d value: ");                                                                                                                                                   
-                        heap = new Dheap(input, d);
-                        PrintColored("The heap has been built", ConsoleColor.Green);
-                        heap.PrintHeap();
-
+                        MakeList();
                         break;
 
                     case Status.ChangeD:
@@ -173,8 +123,7 @@ namespace Maman_12
                         }
                         break;
 
-                    case Status.exit:
-                        //exit program
+                    case Status.exit:                      
                         flag = false;
                         break;
 
@@ -247,7 +196,48 @@ namespace Maman_12
             Console.WriteLine(message);
             Console.ResetColor();
         }
+        /// <summary>
+        /// The function MakeList:
+        /// Handles the user's input for valid values for the d-ary heap.
+        /// Calls the constructor and creates the heap.
+        /// </summary>
+        public static void MakeList()
+        {
+            bool flag = true; 
+            while (flag)
+            {
+                PrintColored("Please write your heap values as integers (Seperated by a space): ", ConsoleColor.Blue);
+                string userInput = Console.ReadLine();
+                if (!inputPattern.IsMatch(userInput))
+                {
+                    PrintColored("[ERROR]: You have to enter integers between -9999 and 9999\" only. Please try again.", ConsoleColor.Red);
+                    continue;
+                }
+
+                
+                userInput = Regex.Replace(userInput, @"\s+", " ").Trim();//Pattern for replacing any white space with 1 single white space.
+                string[] userInputArray = userInput.Split(' '); //seperating the integers into an array of strings.
+                List<int> input = new List<int>();
+
+                foreach (string num in userInputArray)//adding the values of the input to a List and casting them to integers.
+                {
+                    input.Add(int.Parse(num));
+                }
+
+                if (input.Count == 0 || input.Count > 1000)
+                {
+                    PrintColored("[ERROR] input has to be more than 0 and less than 1000 elements", ConsoleColor.Red);
+                    continue;
+                }
+
+
+                int d = ValidInput(true, "Enter the d value: ");
+                heap = new Dheap(input, d);//initializing the d-ary heap object.
+                PrintColored("The heap has been built", ConsoleColor.Green);
+                heap.PrintHeap();
+                flag = false;
+
+            }
+        }
     }
-
-
 }
