@@ -210,7 +210,7 @@ namespace Maman_12
                 string userInput = Console.ReadLine();
                 if (!inputPattern.IsMatch(userInput))
                 {
-                    PrintColored("[ERROR]: You have to enter integers between -9999 and 9999\" only. Please try again.", ConsoleColor.Red);
+                    PrintColored("[ERROR]: You have to enter integers between -9999 and 9999 only. Please try again.", ConsoleColor.Red);
                     continue;
                 }
 
