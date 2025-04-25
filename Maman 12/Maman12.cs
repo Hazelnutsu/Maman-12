@@ -42,9 +42,6 @@ namespace Maman_12
             HandleStatus();
         }
 
-
-       
-
         /// <summary>
         /// This function HandleStatus:
         /// handles the user input. 
@@ -126,8 +123,7 @@ namespace Maman_12
                         }
                         break;
 
-                    case Status.exit:
-                        //exit program
+                    case Status.exit:                      
                         flag = false;
                         break;
 
