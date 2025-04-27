@@ -92,7 +92,7 @@ namespace Maman_12
                             case Status.ChangeD:
                                 int newD = ValidInput(true, "Enter the d value");
                                 heap.ChangeD(newD);                                
-                                PrintColored("The d value was ChangeD to: " + newD, ConsoleColor.Green);
+                                PrintColored("The d value was Changed to: " + newD, ConsoleColor.Green);
                                 heap.PrintHeap();
 
                                 break;
